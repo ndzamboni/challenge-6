@@ -1,0 +1,44 @@
+<!-- Weather outlook for multiple cities -->
+<!-- Weather dashboard with form inputs -->
+<!-- I want to search for a city -->
+<!-- I want to see the current weather conditions for that city and it is added to the search history-->
+<!-- I am presented with the city name, date, an icon representation of weather conditions, the tempurature, humidity, and wind speed -->
+<!-- I want to see the 5 day forecast for that city that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity -->
+<!-- I want to click on a city in the search history and be presented with the current and future conditions for that city -->
+<!-- I will use the OpenWeather API -->
+<!-- I will use local storage to store the search history -->
+<!-- If a city is not found, I want an error message to display to the user -->
+
+<!-- styles -->
+<!-- I want a dark theme for this site -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather Dashboard</title>
+<link rel="stylesheet" href="./assests/styles.css">
+</head>
+<body>
+    <hero>
+        <h1 class="hero">Weather Dashboard</h1>
+            <div id="current-date-and-time"></div>
+    </hero>
+    <div class="container">
+        <h2>Search A City</h2>
+        <form id="search-form">
+            <input type="text" id="city-input" placeholder="Enter city name">
+            <button type="submit">Search</button>
+        </form>
+    <div id="current-weather"></div>
+    <div id="forecast"></div>
+    <div id="search-history"></div>
+    </div>
+
+<script src="./assests/script.js"></script>
+</body>
+</html>
+
