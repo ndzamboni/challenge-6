@@ -108,3 +108,11 @@ function loadSearchHistory() {
         });
     }
 }
+
+// clear search history button  
+const clearButton = document.getElementById('clear-history');
+clearButton.addEventListener('click', function() {
+    localStorage.removeItem('searchHistory');
+    searchHistory.innerHTML = '';
+});
+
