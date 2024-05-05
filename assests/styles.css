@@ -11,34 +11,31 @@ hero {
     background-color: rgb(87, 100, 93);
 }
 
-/* .container {
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  
-  h1 {
-    margin-top: 20px;
-  }
-  
-  #search-form {
-    margin-top: 20px;
-  }
-  
-  #current-weather, #forecast {
-    margin-top: 20px;
-  }
-  
-  #search-history {
-    margin-top: 20px;
-    text-align: left;
-  }
-  
-  .weather-item {
-    margin-bottom: 10px;
-  }
-  
-  .weather-icon {
-    width: 50px;
-    height: 50px;
-  } */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#current-weather {
+  margin-top: 20px; /* Adjust as needed */
+}
+
+#forecast {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin-top: 20px; /* Adjust as needed */
+}
+
+.forecast-item {
+  flex: 0 0 auto;
+  margin-right: 10px; /* Adjust as needed */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-history {
+  margin-top: 20px; /* Adjust as needed */
+}
