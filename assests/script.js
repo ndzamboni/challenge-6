@@ -64,10 +64,43 @@ currentWeather.innerHTML = `
 
 function displayForecast(data) {
   // Extract relevant forecast data from API response and display it
+  // Extract relevant forecast data from API response and display it
+  const forecastData = data.list.slice(0, 5); // Assuming you want to display the first 5 forecast entries
+  let forecastHTML = '';
+
+  forecastData.forEach(forecast => {
+    const { dt_txt, main, weather } = forecast;
+    const forecastDate = new Date(dt_txt);
+    const temperature = main.temp;
+    const weatherDescription = weather[0].description;
+
+    forecastHTML += `
+      <div class="forecast-item">
+        <h3>${forecastDate.toLocaleDateString()}</h3>
+        <p>${weatherDescription}</p>
+        <p>Temperature: ${temperature}°C</p>
+      </div>
+    `;
+  });
+
+  forecast.innerHTML = forecastHTML;
 }
 
 function storeSearchHistory(city) {
   // Store searched city in local storage
+  // Load search history from local storage and display it
+  // Store searched city in local storage
+  let searchHistory = localStorage.getItem('searchHistory');
+  if (!searchHistory) {
+    searchHistory = [];
+  } else {
+    searchHistory = JSON.parse(searchHistory);
+  }
+  searchHistory.push(city);
+  localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+
+  // Load search history from local storage and display it
+  loadSearchHistory();
 }
 
 function loadSearchHistory() {
