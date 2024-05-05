@@ -43,72 +43,86 @@ fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey
 }
 
 function displayCurrentWeather(data) {
-  // Extract relevant data from API response
-  const { name, main, weather, wind } = data;
+  const { name, main, weather, wind, dt } = data;
   const weatherDescription = weather[0].description;
   const temperature = main.temp;
   const humidity = main.humidity;
   const windSpeed = wind.speed;
   const iconCode = weather[0].icon;
+  const currentDate = new Date(dt * 1000); // Convert timestamp to milliseconds
 
-// Display current weather
-currentWeather.innerHTML = `
-<div class="weather-item">
-  <h2>${name}</h2>
-  <img src="http://openweathermap.org/img/wn/${iconCode}.png" alt="Weather Icon">
-  <p>${weatherDescription}</p>
-  <p>Temperature: ${temperature}°C</p>
-  <p>Humidity: ${humidity}%</p>
-  <p>Wind Speed: ${windSpeed} m/s</p>
-</div>
-`;
+  currentWeather.innerHTML = `
+  <div class="weather-item">
+      <h2>${name}</h2>
+      <p>${currentDate.toDateString()}</p>
+      <img src="http://openweathermap.org/img/wn/${iconCode}.png" alt="Weather Icon">
+      <p>${weatherDescription}</p>
+      <p>Temperature: ${temperature}°C</p>
+      <p>Humidity: ${humidity}%</p>
+      <p>Wind Speed: ${windSpeed} m/s</p>
+  </div>
+  `;
 }
 
 function displayForecast(data) {
-  // Extract relevant forecast data from API response and display it
-  const forecastData = data.list.slice(0, 5); // Assuming you want to display the first 5 forecast entries
+  const forecastData = data.list.slice(0, 5);
   let forecastHTML = '';
 
   forecastData.forEach(forecast => {
-    const { dt_txt, main, weather } = forecast;
-    const forecastDate = new Date(dt_txt);
-    const temperature = main.temp;
-    const weatherDescription = weather[0].description;
-    const iconCode = weather[0].icon;
+      const { dt, main, weather } = forecast;
+      const forecastDate = new Date(dt * 1000); // Convert timestamp to milliseconds
+      const temperature = main.temp;
+      const weatherDescription = weather[0].description;
+      const iconCode = weather[0].icon;
 
-    forecastHTML += `
+      forecastHTML += `
       <div class="forecast-item">
-        <h3>${forecastDate.toLocaleDateString()}</h3>
-        <img src="http://openweathermap.org/img/wn/${iconCode}.png" alt="Weather Icon">
-        <p>${weatherDescription}</p>
-        <p>Temperature: ${temperature}°C</p>
+          <h3>${forecastDate.toDateString()}</h3>
+          <img src="http://openweathermap.org/img/wn/${iconCode}.png" alt="Weather Icon">
+          <p>${weatherDescription}</p>
+          <p>Temperature: ${temperature}°C</p>
       </div>
-    `;
+      `;
   });
 
   forecast.innerHTML = forecastHTML;
 }
 
 function storeSearchHistory(city) {
-  // Store searched city in local storage
-  // Load search history from local storage and display it
-  // Store searched city in local storage
   let searchHistory = localStorage.getItem('searchHistory');
   if (!searchHistory) {
-    searchHistory = [];
+      searchHistory = [];
   } else {
-    searchHistory = JSON.parse(searchHistory);
+      searchHistory = JSON.parse(searchHistory);
   }
-  searchHistory.push(city);
+
+  // Add city to search history, removing duplicates
+  searchHistory = searchHistory.filter(item => item !== city);
+  searchHistory.unshift(city); // Add the new city at the beginning
+  if (searchHistory.length > 10) {
+      searchHistory = searchHistory.slice(0, 10); // Limit to the last 10 searches
+  }
   localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
 
-  // Load search history from local storage and display it
+  // Display search history
   loadSearchHistory();
 }
 
 function loadSearchHistory() {
-  // Load search history from local storage and display it
+  let searchHistory = localStorage.getItem('searchHistory');
+  if (searchHistory) {
+      searchHistory = JSON.parse(searchHistory);
+      const searchHistoryContainer = document.getElementById('search-history');
+      searchHistoryContainer.innerHTML = '';
+      searchHistory.forEach(city => {
+          const button = document.createElement('button');
+          button.textContent = city;
+          button.classList.add('search-history-button');
+          button.addEventListener('click', () => {
+              fetchWeather(city);
+          });
+          searchHistoryContainer.appendChild(button);
+      });
+  }
 }
 
-// Load search history when the page loads
-loadSearchHistory();
