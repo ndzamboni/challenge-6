@@ -83,6 +83,7 @@ function displayCurrentWeather(data) {
     const { name, main, weather, wind, dt } = data;
     const weatherDescription = weather[0].description;
     const temperature = main.temp;
+    const temperatureFahrenheit = (temperature * 9/5) + 32;
     const humidity = main.humidity;
     const windSpeed = wind.speed;
     const iconCode = weather[0].icon;
@@ -95,7 +96,7 @@ function displayCurrentWeather(data) {
             <p>${formattedDate}</p>
             <img src="http://openweathermap.org/img/wn/${iconCode}.png" alt="Weather Icon">
             <p>${weatherDescription}</p>
-            <p>Temperature: ${temperature}°C</p>
+            <p>Temperature: ${temperatureFahrenheit.toFixed(1)}°F</p>
             <p>Humidity: ${humidity}%</p>
             <p>Wind Speed: ${windSpeed} m/s</p>
         </div>
@@ -111,10 +112,13 @@ const forecastData = data.list.slice(0, 7);
 let forecastHTML = '';
 
 forecastData.forEach((forecast, index) => {
-    const { dt, main, weather } = forecast;
+    const { dt, main, weather, wind } = forecast;
     const forecastDate = dayjs().add(index + 1, 'day'); // Add 1 day for each forecast item
     const formattedDate = forecastDate.format('dddd, MMM D'); // Format the date as "Day, Month Day"
+    const humidity = main.humidity;
+    const windSpeed = wind.speed;
     const temperature = main.temp;
+    const temperatureFahrenheit = (temperature * 9/5) + 32;
     const weatherDescription = weather[0].description;
     const iconCode = weather[0].icon;
 
@@ -123,7 +127,9 @@ forecastData.forEach((forecast, index) => {
             <h3>${formattedDate}</h3>
             <img src="http://openweathermap.org/img/wn/${iconCode}.png" alt="Weather Icon">
             <p>${weatherDescription}</p>
-            <p>Temperature: ${temperature}°C</p>
+            <p>Temperature: ${temperatureFahrenheit.toFixed(1)}°F</p>
+            <p>Humidity: ${humidity}%</p>
+            <p>Wind Speed: ${windSpeed} m/s</p>
         </div>
     `;
 });
