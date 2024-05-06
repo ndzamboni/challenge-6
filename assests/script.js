@@ -43,32 +43,55 @@ function fetchForecast(city) {
 }
 
 function displayCurrentWeather(data) {
-    // Your current weather display function
+    const { name, main, weather, wind, dt } = data;
+    const weatherDescription = weather[0].description;
+    const temperature = main.temp;
+    const humidity = main.humidity;
+    const windSpeed = wind.speed;
+    const iconCode = weather[0].icon;
+    const currentDate = new Date(dt * 1000); // Convert timestamp to milliseconds
+    const formattedDate = currentDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+    const currentWeatherHTML = `
+        <div class="current-weather-card">
+            <h2>Current Weather in ${name}</h2>
+            <p>${formattedDate}</p>
+            <img src="http://openweathermap.org/img/wn/${iconCode}.png" alt="Weather Icon">
+            <p>${weatherDescription}</p>
+            <p>Temperature: ${temperature}°C</p>
+            <p>Humidity: ${humidity}%</p>
+            <p>Wind Speed: ${windSpeed} m/s</p>
+        </div>
+    `;
+
+    // Insert current weather card above the forecast
+    currentWeather.insertAdjacentHTML('afterbegin', currentWeatherHTML);
 }
 
+
 function displayForecast(data) {
-  const forecastData = data.list.slice(0, 7);
-  let forecastHTML = '';
+const forecastData = data.list.slice(0, 7);
+let forecastHTML = '';
 
-  forecastData.forEach((forecast, index) => {
-      const { dt, main, weather } = forecast;
-      const forecastDate = dayjs().add(index + 1, 'day'); // Add 1 day for each forecast item
-      const formattedDate = forecastDate.format('dddd, MMM D'); // Format the date as "Day, Month Day"
-      const temperature = main.temp;
-      const weatherDescription = weather[0].description;
-      const iconCode = weather[0].icon;
+forecastData.forEach((forecast, index) => {
+    const { dt, main, weather } = forecast;
+    const forecastDate = dayjs().add(index + 1, 'day'); // Add 1 day for each forecast item
+    const formattedDate = forecastDate.format('dddd, MMM D'); // Format the date as "Day, Month Day"
+    const temperature = main.temp;
+    const weatherDescription = weather[0].description;
+    const iconCode = weather[0].icon;
 
-      forecastHTML += `
-          <div class="forecast-item">
-              <h3>${formattedDate}</h3>
-              <img src="http://openweathermap.org/img/wn/${iconCode}.png" alt="Weather Icon">
-              <p>${weatherDescription}</p>
-              <p>Temperature: ${temperature}°C</p>
-          </div>
-      `;
-  });
+    forecastHTML += `
+        <div class="forecast-item">
+            <h3>${formattedDate}</h3>
+            <img src="http://openweathermap.org/img/wn/${iconCode}.png" alt="Weather Icon">
+            <p>${weatherDescription}</p>
+            <p>Temperature: ${temperature}°C</p>
+        </div>
+    `;
+});
 
-  forecast.innerHTML = forecastHTML;
+forecast.innerHTML = forecastHTML;
 }
 
 function storeSearchHistory(city) {

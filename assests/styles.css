@@ -39,3 +39,10 @@ hero {
 .search-history {
   margin-top: 20px; /* Adjust as needed */
 }
+
+.forecast-item, .current-weather-card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
