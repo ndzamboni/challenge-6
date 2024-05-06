@@ -14,21 +14,59 @@ searchForm.addEventListener('submit', function(event) {
     }
 });
 
+
+$(function() {
+    $("#city-input").autocomplete({
+        source: function(request, response) {
+            // Fetch city suggestions from an API or local data source
+            // Example: You can use the Geonames API for city autocomplete
+            $.ajax({
+                url: "http://api.geonames.org/searchJSON",
+                dataType: "jsonp",
+                data: {
+                    q: request.term,
+                    username: "demo" // Your Geonames username
+                },
+                success: function(data) {
+                    response(data.geonames.map(function(item) {
+                        return item.name;
+                    }));
+                }
+            });
+        },
+        minLength: 2 // Minimum characters before autocomplete triggers
+    });
+});
+
+
 function fetchWeather(city) {
+    // Clear existing weather display
+    currentWeather.innerHTML = '';
+    forecast.innerHTML = '';
+    document.getElementById('error-message').textContent = '';
+
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('City not found');
+            }
+            return response.json();
+        })
         .then(data => {
-            // Display current weather
+            // Display current weather for the new city
             displayCurrentWeather(data);
-            // Fetch forecast
+            // Fetch forecast for the new city
             fetchForecast(city);
             // Store search history
             storeSearchHistory(city);
         })
         .catch(error => {
             console.error('Error fetching weather:', error);
+            // Display error message in a modal or alert
+            alert('Error fetching weather. Please try again later.');
         });
 }
+
 
 function fetchForecast(city) {
     fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`)

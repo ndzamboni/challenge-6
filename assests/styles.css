@@ -1,6 +1,6 @@
 body {
     background-color: rgb(40, 30, 49);
-    color: antiquewhite
+    color: #faebd7
 }
 
 
@@ -21,19 +21,21 @@ hero {
   margin-top: 20px; /* Adjust as needed */
 }
 
+
+
 #forecast {
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  margin-top: 20px; /* Adjust as needed */
+  flex-wrap: wrap; /* Allow forecast items to wrap to the next line */
+  justify-content: space-between; /* Distribute items evenly along the main axis */
 }
 
 .forecast-item {
-  flex: 0 0 auto;
-  margin-right: 10px; /* Adjust as needed */
+  flex-basis: calc(33.33% - 10px); /* Set initial width of each item */
+  margin-bottom: 20px; /* Add some space between forecast items */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  box-sizing: border-box; /* Include padding and border in the element's total width */
 }
 
 .search-history {
@@ -50,7 +52,7 @@ hero {
 .search-history-button, #clear-history-button {
   background-color: #57645d; /* Green */
   border: none;
-  color: white;
+  color: #faebd7;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -62,5 +64,26 @@ hero {
 }
 
 .search-history-button:hover, #clear-history-button:hover {
-  background-color: #45a049;
+  background-color: #000000;
+}
+
+/* Media query for screens smaller than 768px (typical mobile screens) */
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .forecast-item, .current-weather-card, .search-history-button, #clear-history-button {
+    width: 100%; /* Make forecast items, current weather card, and buttons full width */
+  }
+
+  .forecast-item, .current-weather-card {
+    margin-bottom: 20px; /* Increase margin between forecast items and current weather card */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .forecast-item {
+    flex-basis: calc(50% - 10px); /* Set initial width of each item for smaller screens */
+  }
 }
