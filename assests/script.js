@@ -14,29 +14,28 @@ searchForm.addEventListener('submit', function(event) {
     }
 });
 
-
-$(function() {
-    $("#city-input").autocomplete({
-        source: function(request, response) {
-            // Fetch city suggestions from an API or local data source
-            // Example: You can use the Geonames API for city autocomplete
-            $.ajax({
-                url: "http://api.geonames.org/searchJSON",
-                dataType: "jsonp",
-                data: {
-                    q: request.term,
-                    username: "demo" // Your Geonames username
-                },
-                success: function(data) {
-                    response(data.geonames.map(function(item) {
-                        return item.name;
-                    }));
-                }
-            });
-        },
-        minLength: 2 // Minimum characters before autocomplete triggers
-    });
-});
+// not working but don't know why
+// $(function() {
+//     $("#city-input").autocomplete({
+//         source: function(request, response) {
+//             // Fetch city suggestions from Geonames API
+//             $.ajax({
+//                 url: "http://api.geonames.org/searchJSON",
+//                 dataType: "jsonp",
+//                 data: {
+//                     q: request.term,
+//                     username: "Zambonator" // Your Geonames username
+//                 },
+//                 success: function(data) {
+//                     response(data.geonames.map(function(item) {
+//                         return item.name;
+//                     }));
+//                 }
+//             });
+//         },
+//         minLength: 2 // Minimum characters before autocomplete triggers
+//     });
+// });
 
 
 function fetchWeather(city) {
