@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(58, 45, 70);
+    background-color: rgb(40, 30, 49);
     color: antiquewhite
 }
 
@@ -8,7 +8,7 @@ hero {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(87, 100, 93);
+    background-color: #57645d;
 }
 
 .container {
@@ -37,7 +37,7 @@ hero {
 }
 
 .search-history {
-  margin-top: 20px; /* Adjust as needed */
+  margin-top: 30px; /* Adjust as needed */
 }
 
 .forecast-item, .current-weather-card {
@@ -45,4 +45,22 @@ hero {
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
+}
+
+.search-history-button, #clear-history-button {
+  background-color: #57645d; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.search-history-button:hover, #clear-history-button:hover {
+  background-color: #45a049;
 }
